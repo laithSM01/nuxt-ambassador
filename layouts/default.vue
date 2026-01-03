@@ -5,9 +5,15 @@
      <ul class="flex space-x-8 h-16 items-center">
      <li><NuxtLink to="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</NuxtLink></li>
      <li><NuxtLink to="/about" class="text-gray-700 hover:text-blue-600 font-medium">About</NuxtLink></li>
+     <li><NuxtLink to="/admin/users" class="text-gray-700 hover:text-blue-600 font-medium">Users</NuxtLink></li>
      <li><NuxtLink to="/admin/products" class="text-gray-700 hover:text-blue-600 font-medium">Products</NuxtLink></li>
      <li><NuxtLink to="/admin/login" class="text-gray-700 hover:text-blue-600 font-medium">Login</NuxtLink></li>
      <li><a href="/about" class="text-red-600 hover:text-red-800 font-medium">normal about</a></li>
+     <li v-if="true">
+        <button @click="handleLogout" class="bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded">
+          Logout
+        </button>
+     </li>
      </ul>
      </nav>
      </header>
@@ -20,7 +26,13 @@
 </template>
 
 <script setup>
+const { isLoggedIn, logout, user } = useAuth()
 
+console.log('user: ', user)
+console.log('isLoggedIn:', isLoggedIn)
+const handleLogout = async () => {
+  await logout()
+}
 </script>
 
 <style scoped>

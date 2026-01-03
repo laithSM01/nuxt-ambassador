@@ -18,7 +18,7 @@ export const useAuth = () => {
       // Store email locally for reference (JWT is in httponly cookie)
       user.value = { email }
 
-      return { success: true, message: data.message }
+      return { success: true, message: data }
     } catch (err: any) {
       console.error('Login failed:', err)
       const message = err?.data?.message || err?.message || String(err)
@@ -28,26 +28,22 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
-      const url = `${config.public.apiBaseUrl}/api/logout`
+      const url = `${config.public.apiBaseUrl}/api/admin/logout`
       await $fetch(url, {
         method: 'POST',
         credentials: 'include'
       })
     } catch (e) {
       // ignore errors on logout
+      console.error('Logout error:', e)
     } finally {
+      // Clear local state
       user.value = null
       useCookie('user').value = null
+      useCookie('jwt').value = null // Clear JWT cookie reference if stored locally
       await navigateTo('/admin/login')
     }
   }
-
-  const initUser = () => {
-    // const userCookie = useCookie('user')
-    // if (userCookie.value) user.value = userCookie.value
-  }
-
-  initUser()
 
   return {
     user: readonly(user),
