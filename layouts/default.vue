@@ -7,6 +7,7 @@
      <li><NuxtLink to="/about" class="text-gray-700 hover:text-blue-600 font-medium">About</NuxtLink></li>
      <li><NuxtLink to="/admin/users" class="text-gray-700 hover:text-blue-600 font-medium">Users</NuxtLink></li>
      <li><NuxtLink to="/admin/products" class="text-gray-700 hover:text-blue-600 font-medium">Products</NuxtLink></li>
+     <li><NuxtLink to="/admin/orders" class="text-gray-700 hover:text-blue-600 font-medium">Orders</NuxtLink></li>
      <li><NuxtLink to="/admin/login" class="text-gray-700 hover:text-blue-600 font-medium">Login</NuxtLink></li>
      <li><a href="/about" class="text-red-600 hover:text-red-800 font-medium">normal about</a></li>
      <li v-if="true">
