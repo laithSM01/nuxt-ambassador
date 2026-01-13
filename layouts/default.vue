@@ -9,8 +9,10 @@
      <li><NuxtLink to="/admin/products" class="text-gray-700 hover:text-blue-600 font-medium">Products</NuxtLink></li>
      <li><NuxtLink to="/admin/orders" class="text-gray-700 hover:text-blue-600 font-medium">Orders</NuxtLink></li>
      <li><NuxtLink to="/admin/login" class="text-gray-700 hover:text-blue-600 font-medium">Login</NuxtLink></li>
+     <li><NuxtLink to="/admin/register" class="text-gray-700 hover:text-blue-600 font-medium">Register</NuxtLink></li>
+     <li><NuxtLink to="/admin/profile" class="text-gray-700 hover:text-blue-600 font-medium">Profile</NuxtLink></li>
      <li><a href="/about" class="text-red-600 hover:text-red-800 font-medium">normal about</a></li>
-     <li v-if="true">
+     <li v-if="isLoggedIn">
         <button @click="handleLogout" class="bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded">
           Logout
         </button>
@@ -27,15 +29,15 @@
 </template>
 
 <script setup>
-const { isLoggedIn, logout, user } = useAuth()
-
-console.log('user: ', user)
-console.log('isLoggedIn:', isLoggedIn)
-const handleLogout = async () => {
-  await logout()
-}
+  const { isLoggedIn, logout, getUser } = useAuth()
+  const handleLogout = async () => {
+    await logout()
+  }
+  onServerPrefetch(async () => {
+  await getUser()
+})
+  console.log('Layout loaded', isLoggedIn.value)
+  watch(isLoggedIn, (val) => {
+  console.log('Auth changed:', val)
+})
 </script>
-
-<style scoped>
-
-</style>

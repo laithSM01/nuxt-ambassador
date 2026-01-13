@@ -71,9 +71,6 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
-import { useOrders } from "~/composables/useOrders"
-
 const { orders, loading, error, fetchOrders } = useOrders()
 
 const openOrder = ref(null)
