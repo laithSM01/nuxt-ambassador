@@ -4,20 +4,20 @@ export const useOrders = () => {
   const loading = ref(false)
   const error = ref(null)
 
-    const fetchOrders = async () => {
-        loading.value = true
-        error.value = null
-        try {
-            const {data } = await useFetch(`${config.public.apiBaseUrl}/api/admin/orders`, {
-                credentials: 'include'
-            })
-            orders.value = data.value || []
-        } catch (err) {
-            error.value = err
-        } finally {
-            loading.value = false
-        }
-    }
+const fetchOrders = async () => {
+  loading.value = true
+  error.value = null
+
+  try {
+    orders.value = await $fetch(`${config.public.apiBaseUrl}/api/admin/orders`, {
+      credentials: 'include'
+    })
+  } catch (err) {
+    error.value = err.message || 'Failed to fetch orders'
+  } finally {
+    loading.value = false
+  }
+}
 
     return {
         orders,

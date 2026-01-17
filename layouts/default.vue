@@ -8,8 +8,8 @@
      <li><NuxtLink to="/admin/users" class="text-gray-700 hover:text-blue-600 font-medium">Users</NuxtLink></li>
      <li><NuxtLink to="/admin/products" class="text-gray-700 hover:text-blue-600 font-medium">Products</NuxtLink></li>
      <li><NuxtLink to="/admin/orders" class="text-gray-700 hover:text-blue-600 font-medium">Orders</NuxtLink></li>
-     <li><NuxtLink to="/admin/login" class="text-gray-700 hover:text-blue-600 font-medium">Login</NuxtLink></li>
-     <li><NuxtLink to="/admin/register" class="text-gray-700 hover:text-blue-600 font-medium">Register</NuxtLink></li>
+     <li v-if="!isLoggedIn"><NuxtLink to="/admin/login" class="text-gray-700 hover:text-blue-600 font-medium">Login</NuxtLink></li>
+     <li v-if="!isLoggedIn"><NuxtLink to="/admin/register" class="text-gray-700 hover:text-blue-600 font-medium">Register</NuxtLink></li>
      <li><NuxtLink to="/admin/profile" class="text-gray-700 hover:text-blue-600 font-medium">Profile</NuxtLink></li>
      <li><a href="/about" class="text-red-600 hover:text-red-800 font-medium">normal about</a></li>
      <li v-if="isLoggedIn">
@@ -29,15 +29,8 @@
 </template>
 
 <script setup>
-  const { isLoggedIn, logout, getUser } = useAuth()
+const { isLoggedIn, logout } = useAuth()
   const handleLogout = async () => {
     await logout()
   }
-  onServerPrefetch(async () => {
-  await getUser()
-})
-  console.log('Layout loaded', isLoggedIn.value)
-  watch(isLoggedIn, (val) => {
-  console.log('Auth changed:', val)
-})
-</script>
+  </script>

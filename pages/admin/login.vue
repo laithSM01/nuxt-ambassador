@@ -10,7 +10,6 @@
 </template>
 
 <script setup>
-  const user = useCookie('user')
   const router = useRouter()
   const username = ref()
   const password = ref()
@@ -18,7 +17,6 @@
   const login = async () => {
     const result = await useAuth().login(username.value, password.value)
     if (result.success) {
-      user.value = {username: username, role: 'user'}
       router.push('/')
     }
   }

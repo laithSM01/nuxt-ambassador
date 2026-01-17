@@ -4,18 +4,18 @@ export const useProducts = () => {
   const loading = ref(false)
   const error = ref(null)
 
-    const fetchProducts = async () => {
-    loading.value = true
-    error.value = null
-    try {
-      const { data } = await useFetch(`${config.public.apiBaseUrl}/api/admin/products`, {
+  const fetchProducts = async () => {
+    const { data, pending, error } = await useAsyncData(
+      'products',
+      () => $fetch(`${config.public.apiBaseUrl}/api/admin/products`, {
         credentials: 'include'
       })
-      products.value = data.value || []
-    } catch (err) {
-      error.value = err.message || 'Failed to fetch products'
-    } finally {
-      loading.value = false
+    )
+    
+    return {
+      products: data,
+      loading: pending,
+      error
     }
   }
 

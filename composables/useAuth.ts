@@ -1,7 +1,7 @@
 export const useAuth = () => {
   const config = useRuntimeConfig()
   const userStore = useUserStore()
-  const user = storeToRefs(userStore)
+  const { user } = storeToRefs(userStore)
   const isLoggedIn = computed(() => !!user.value)
 
   const login = async (email: string, password: string) => {
@@ -41,8 +41,6 @@ export const useAuth = () => {
     } finally {
       // Clear local state
       userStore.setUser(null)
-      useCookie('user').value = null
-      useCookie('jwt').value = null // Clear JWT cookie reference if stored locally
       await navigateTo('/admin/login')
     }
   }
@@ -100,15 +98,19 @@ const getUser = async () => {
   try {
     const url = `${config.public.apiBaseUrl}/api/admin/user`
 
+    const headers = process.server
+      ? useRequestHeaders(['cookie'])
+      : undefined
+
     const data = await $fetch(url, {
       method: 'GET',
-      credentials: 'include'
+      credentials: 'include',
+      headers
     })
 
     userStore.setUser(data)
     return data
-  } catch (err) {
-    // Not logged in / expired session
+  } catch {
     userStore.setUser(null)
     return null
   }
