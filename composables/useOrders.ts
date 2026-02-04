@@ -12,7 +12,7 @@ const fetchOrders = async () => {
     orders.value = await $fetch(`${config.public.apiBaseUrl}/api/admin/orders`, {
       credentials: 'include'
     })
-  } catch (err) {
+  } catch (err : any) {
     error.value = err.message || 'Failed to fetch orders'
   } finally {
     loading.value = false

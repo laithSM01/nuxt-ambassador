@@ -19,7 +19,7 @@ export const useProducts = () => {
     }
   }
 
-    const fetchProductById = async (id) => {
+    const fetchProductById = async (id: any) => {
     loading.value = true
     error.value = null
     try {
@@ -27,7 +27,7 @@ export const useProducts = () => {
         credentials: 'include'
       })
       return data.value
-    } catch (err) {
+    } catch (err: any) {
       error.value = err.message || 'Failed to fetch product'
       return null
     } finally {
@@ -35,7 +35,7 @@ export const useProducts = () => {
     }
   }
 
-   const createProduct = async (productData) => {
+   const createProduct = async (productData: any) => {
     loading.value = true
     error.value = null
     try {
@@ -47,7 +47,7 @@ export const useProducts = () => {
       })
       await fetchProducts() // Refresh list
       return response
-    } catch (err) {
+    } catch (err: any) {
       error.value = err.message || 'Failed to create product'
       return null
     } finally {
@@ -55,7 +55,7 @@ export const useProducts = () => {
     }
   }
 
-    const updateProduct = async (id, productData) => {
+    const updateProduct = async (id: any, productData: any) => {
     loading.value = true
     error.value = null
     try {
@@ -66,7 +66,7 @@ export const useProducts = () => {
       })
       await fetchProducts() // Refresh list
       return response
-    } catch (err) {
+    } catch (err: any) {
       error.value = err.message || 'Failed to update product'
       return null
     } finally {
@@ -74,7 +74,7 @@ export const useProducts = () => {
     }
   }
 
-    const deleteProduct = async (id) => {
+    const deleteProduct = async (id: any) => {
     loading.value = true
     error.value = null
     try {
@@ -84,7 +84,7 @@ export const useProducts = () => {
       })
       await fetchProducts() // Refresh list
       return true
-    } catch (err) {
+    } catch (err: any) {
       error.value = err.message || 'Failed to delete product'
       return false
     } finally {

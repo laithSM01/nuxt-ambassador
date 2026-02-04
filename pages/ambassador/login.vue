@@ -1,6 +1,6 @@
 <template>
   <div class="login-form">
-    <h2>Admin Login</h2>
+    <h2>Ambassador Login</h2>
     <form @submit.prevent="login">
       <input type="text" placeholder="Username" v-model="username" required />
       <input type="password" v-model="password" placeholder="Password" required />
@@ -15,9 +15,9 @@
   const password = ref()
 
   const login = async () => {
-    const result = await useAuth().login(username.value, password.value, 'admin')
+    const result = await useAuth().login(username.value, password.value, 'ambassador')
     if (result.success) {
-      router.push('/')
+      router.push('/ambassador')
     }
   }
 </script>

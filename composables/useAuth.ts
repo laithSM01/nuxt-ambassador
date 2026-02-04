@@ -3,10 +3,16 @@ export const useAuth = () => {
   const userStore = useUserStore()
   const { user } = storeToRefs(userStore)
   const isLoggedIn = computed(() => !!user.value)
+  const route = useRoute()
+
+  const getScope = () =>
+    route.path.startsWith('/ambassador') ? 'ambassador' : 'admin'
 
   const login = async (email: string, password: string) => {
     try {
-      const url = `${config.public.apiBaseUrl}/api/admin/login`
+      const scope = getScope()
+      const url = `${config.public.apiBaseUrl}/api/${scope}/login`
+      console.log('Logging in to scope:', scope)
 
       // Django backend sets JWT in httponly cookie and returns { message: '...' }
       const data = await $fetch(url, {
@@ -30,7 +36,8 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
-      const url = `${config.public.apiBaseUrl}/api/admin/logout`
+      const scope = getScope()
+      const url = `${config.public.apiBaseUrl}/api/${scope}/logout`
       await $fetch(url, {
         method: 'POST',
         credentials: 'include'
@@ -50,7 +57,8 @@ export const useAuth = () => {
     password_confirm: string
   ) => {
     try {
-      const url = `${config.public.apiBaseUrl}/api/admin/users/password`
+      const scope = getScope()
+      const url = `${config.public.apiBaseUrl}/api/${scope}/users/password`
       await $fetch(url, {
         method: 'PUT',
         body: {
@@ -73,7 +81,8 @@ const updateUserInfo = async (
   email: string
 ) => {
   try {
-    const url = `${config.public.apiBaseUrl}/api/admin/users/info`
+    const scope = getScope()
+    const url = `${config.public.apiBaseUrl}/api/${scope}/users/info`
 
     const data = await $fetch(url, {
       method: 'PUT',
@@ -96,7 +105,8 @@ const updateUserInfo = async (
 
 const getUser = async () => {
   try {
-    const url = `${config.public.apiBaseUrl}/api/admin/user`
+    const scope = getScope()
+    const url = `${config.public.apiBaseUrl}/api/${scope}/user`
 
     const headers = process.server
       ? useRequestHeaders(['cookie'])

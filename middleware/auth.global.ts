@@ -1,17 +1,14 @@
-// wrap middle ware function in a built in function provided by nuxt
-import { defineNuxtRouteMiddleware, navigateTo } from '#app'
+import { defineNuxtRouteMiddleware } from '#app'
 
-export default defineNuxtRouteMiddleware(async (to, from) => {
-    if (to.path === '/admin/login') return
-
+export default defineNuxtRouteMiddleware(async () => {
   const userStore = useUserStore()
 
-  // Try restoring session on refresh
+  // Restore session once (refresh / hard reload)
   if (!userStore.user) {
-    await useAuth().getUser()
-  }
-
-  if (import.meta.client &&!userStore.user) {
-    return navigateTo('/admin/login')
+    try {
+      await useAuth().getUser()
+    } catch {
+      // silently fail — public pages must still work
+    }
   }
 })
