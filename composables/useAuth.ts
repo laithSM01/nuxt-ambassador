@@ -35,8 +35,8 @@ export const useAuth = () => {
   }
 
   const logout = async () => {
+    const scope = getScope()
     try {
-      const scope = getScope()
       const url = `${config.public.apiBaseUrl}/api/${scope}/logout`
       await $fetch(url, {
         method: 'POST',
@@ -48,7 +48,7 @@ export const useAuth = () => {
     } finally {
       // Clear local state
       userStore.setUser(null)
-      await navigateTo('/admin/login')
+      await navigateTo(`/${scope}/login`)
     }
   }
 

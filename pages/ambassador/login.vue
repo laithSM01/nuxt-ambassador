@@ -10,6 +10,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: 'ambassador',
+})
+
   const router = useRouter()
   const username = ref()
   const password = ref()
